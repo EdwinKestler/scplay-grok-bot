@@ -1,0 +1,29 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+replays/*.SC2Replay
+replays/playbot_live_chat.log
+.env
+*.egg-info/
+dist/
+build/
+sc2-cache/
+
+# Captures: keep folder structure; ignore bulky media by default
+captures/screenshots/*
+!captures/screenshots/.gitkeep
+!captures/screenshots/**/*.png
+!captures/screenshots/**/*.jpg
+!captures/screenshots/**/*.jpeg
+!captures/screenshots/**/*.webp
+captures/gameplay/*
+!captures/gameplay/.gitkeep
+# Uncomment to track small videos in git (or use Git LFS):
+# !captures/gameplay/**/*.mp4
+# !captures/gameplay/**/*.webm
+captures/**/*.mp4
+captures/**/*.webm
+captures/**/*.mov
+captures/**/*.mkv
+captures/**/*.avi

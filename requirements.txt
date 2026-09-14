@@ -1,0 +1,4 @@
+# StarCraft II bot API (BurnySc2 fork of python-sc2)
+burnysc2>=7.0.0
+numpy>=1.26
+loguru>=0.7
