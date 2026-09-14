@@ -35,6 +35,9 @@ _REPO_ROOT_EARLY = Path(__file__).resolve().parents[1]
 if str(_REPO_ROOT_EARLY) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT_EARLY))
 from scplay.match_logger import MatchLogger
+from scplay.llm import get_provider
+from scplay.llm.base import LLMProvider
+from scplay.llm.coach import banter_line
 
 
 RACE_MAP = {
@@ -58,10 +61,20 @@ CHAT_LOG = Path(
 class PlaybotSparBot(BotAI):
     """Zerg sparring partner. Optional chaos cheats + live chat."""
 
-    def __init__(self, *, chaos: bool = False, match_logger: MatchLogger | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        chaos: bool = False,
+        match_logger: MatchLogger | None = None,
+        llm: LLMProvider | None = None,
+        llm_name: str | None = None,
+    ) -> None:
         super().__init__()
         self.chaos = chaos
         self.match_logger = match_logger
+        self.llm = llm
+        self.llm_name = llm_name
+        self._last_llm_banter_time = -999.0
         self._last_snapshot_time = -999.0
         self._my_player_id: int | None = None
         self.attack_started = False
@@ -109,10 +122,16 @@ class PlaybotSparBot(BotAI):
                 "tech unlocked. glhf and don't blink."
             )
         else:
-            await self.say(
-                "Playbot online — I'm the one typing. glhf. "
-                "I'll call shots as we go."
-            )
+            if self.llm_name:
+                await self.say(
+                    f"Playbot online with {self.llm_name} coach — glhf. "
+                    "I'll call shots as we go."
+                )
+            else:
+                await self.say(
+                    "Playbot online — I'm the one typing. glhf. "
+                    "I'll call shots as we go."
+                )
 
     async def _enable_chaos(self) -> None:
         """Toggle SC2 debug cheats. free/fast_build/tech_tree are usually game-wide."""
@@ -203,6 +222,7 @@ class PlaybotSparBot(BotAI):
         await self._ingest_sc2_chat()
         await self._maybe_snapshot()
         await self._topup_chaos()
+        await self._maybe_llm_banter()
         await self._maybe_banter()
         await self._call_milestones()
         await self._distribute_workers()
@@ -271,6 +291,52 @@ class PlaybotSparBot(BotAI):
                 ),
             },
         )
+
+
+    async def _maybe_llm_banter(self) -> None:
+        """Ask OpenAI/Claude for a short chat line; fall back to scripted banter."""
+        if self.llm is None:
+            return
+        interval = 50 if self.chaos else 70
+        if self.time - self._last_llm_banter_time < interval:
+            return
+        if self.time < 25:
+            return
+        self._last_llm_banter_time = self.time
+        summary = (
+            f"time={self.time:.0f}s workers={self.supply_workers} "
+            f"army={self.supply_army:.0f} lings={self.units(UnitTypeId.ZERGLING).amount} "
+            f"townhalls={self.townhalls.amount} minerals={self.minerals} gas={self.vespene} "
+            f"enemy_units_seen={self.enemy_units.amount} attack_started={self.attack_started} "
+            f"chaos={self.chaos} provider={self.llm_name}"
+        )
+        try:
+            resp = await banter_line(self.llm, summary)
+        except Exception as exc:  # noqa: BLE001
+            print(f"[Playbot] LLM banter error: {exc}", flush=True)
+            return
+        if self.match_logger is not None:
+            self.match_logger.event(
+                "llm_banter",
+                {
+                    "provider": resp.provider,
+                    "model": resp.model,
+                    "ok": resp.ok,
+                    "latency_ms": resp.latency_ms,
+                    "error": resp.error,
+                    "text": resp.text[:200] if resp.text else "",
+                },
+                game_time=float(self.time),
+                iteration=int(getattr(self, "iteration", 0) or 0),
+            )
+        if resp.ok:
+            # Keep chat short
+            line = " ".join(resp.text.strip().split())
+            if len(line) > 120:
+                line = line[:117] + "..."
+            await self.say(line)
+        else:
+            print(f"[Playbot] LLM banter failed ({self.llm_name}): {resp.error}", flush=True)
 
     async def _maybe_banter(self) -> None:
         interval = 30 if self.chaos else 45
@@ -451,6 +517,13 @@ def main(argv: list[str] | None = None) -> None:
         action="store_true",
         help="Faster than realtime (game steps as fast as both clients allow)",
     )
+    parser.add_argument(
+        "--llm",
+        default=os.environ.get("SCPLAY_LLM", "").strip(),
+        choices=["", "openai", "claude"],
+        help="Optional LLM connector for live banter: openai | claude "
+        "(keys: OPENAI_API_KEY / CLAUDE_API_KEY)",
+    )
     args = parser.parse_args(argv)
 
     missing = [v for v in ("SC2PATH", "WINE", "WINEPREFIX", "SC2PF") if not os.environ.get(v)]
@@ -483,6 +556,15 @@ def main(argv: list[str] | None = None) -> None:
     def _race_name(r: Race) -> str:
         return r.name if hasattr(r, "name") else str(r)
 
+    llm = None
+    llm_name = (args.llm or "").strip() or None
+    if llm_name:
+        llm = get_provider(llm_name)
+        if not llm.is_configured():
+            print(llm.missing_key_hint(), file=sys.stderr)
+            sys.exit(2)
+        print(f"LLM connector: {llm_name}", flush=True)
+
     logger = MatchLogger(
         map_name=args.map,
         human_race=_race_name(args.human_race),
@@ -491,13 +573,24 @@ def main(argv: list[str] | None = None) -> None:
         fast=args.fast,
         realtime=realtime,
     )
+    if llm_name:
+        logger.meta.notes["llm_provider"] = llm_name
+        logger._write_meta()
     print(f"Structured logs: {logger.match_dir}", flush=True)
 
     run_game(
         maps.get(args.map),
         [
             Human(args.human_race),
-            Bot(args.bot_race, PlaybotSparBot(chaos=args.chaos, match_logger=logger)),
+            Bot(
+                args.bot_race,
+                PlaybotSparBot(
+                    chaos=args.chaos,
+                    match_logger=logger,
+                    llm=llm,
+                    llm_name=llm_name,
+                ),
+            ),
         ],
         realtime=realtime,
     )

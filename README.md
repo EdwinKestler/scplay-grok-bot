@@ -155,6 +155,22 @@ Suggested first message to your Grok Bot after copying this repo:
 
 
 
+
+## LLM connectors (OpenAI + Claude)
+
+Evaluate or coach Playbot with other assistants. Keys from env only:
+
+```bash
+export OPENAI_API_KEY=...
+export CLAUDE_API_KEY=...   # ANTHROPIC_API_KEY also works
+./scripts/probe_llm.sh
+./scripts/play_vs_playbot.sh --llm openai
+./scripts/play_vs_playbot.sh --llm claude
+./scripts/eval_match_with_llm.sh claude logs/matches/<id>/chat.txt
+```
+
+Details: [`docs/LLM_CONNECTORS.md`](docs/LLM_CONNECTORS.md).
+
 ## Structured play + chat logs (training DB)
 
 Every match writes under [`logs/matches/<match_id>/`](logs/):

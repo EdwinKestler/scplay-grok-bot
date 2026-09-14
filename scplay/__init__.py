@@ -1,4 +1,4 @@
-"""scplay-grok-bot helpers (match logging, etc.)."""
+"""scplay-grok-bot helpers."""
 
 from scplay.match_logger import MatchLogger
 

@@ -2,3 +2,7 @@
 burnysc2>=7.0.0
 numpy>=1.26
 loguru>=0.7
+
+# LLM connectors (OpenAI + Claude) use the Python stdlib HTTP client.
+# Optional: python-dotenv if you load a local .env file
+python-dotenv>=1.0
