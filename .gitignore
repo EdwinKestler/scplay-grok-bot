@@ -27,3 +27,6 @@ captures/**/*.webm
 captures/**/*.mov
 captures/**/*.mkv
 captures/**/*.avi
+
+# Keep match logs in repo only if you choose to commit them; export aggregates are local
+logs/export/

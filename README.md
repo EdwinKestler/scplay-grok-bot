@@ -154,6 +154,27 @@ Suggested first message to your Grok Bot after copying this repo:
 ---
 
 
+
+## Structured play + chat logs (training DB)
+
+Every match writes under [`logs/matches/<match_id>/`](logs/):
+
+| File | Contents |
+|------|----------|
+| `match.json` | Map, races, chaos/fast, results, durations |
+| `chat.jsonl` | Bot + human SC2 chat (one JSON object per line) |
+| `chat.txt` | Same chat, greppable text |
+| `play.jsonl` | Events + ~15s economy/army snapshots |
+| `logs/index.jsonl` | Catalog of all finished matches |
+
+Export for training:
+
+```bash
+./scripts/export_logs_for_training.sh
+```
+
+Schema details: [`logs/README.md`](logs/README.md), [`docs/LOG_SCHEMA.md`](docs/LOG_SCHEMA.md).
+
 ## Captures (screenshots & video)
 
 Put gameplay screenshots and short clips in [`captures/`](captures/):

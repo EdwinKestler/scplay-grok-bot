@@ -30,6 +30,12 @@ from sc2.player import Bot, Human
 from sc2.position import Point2
 from sc2.unit import Unit
 
+# Allow `python -m examples.play_vs_playbot` to import sibling package
+_REPO_ROOT_EARLY = Path(__file__).resolve().parents[1]
+if str(_REPO_ROOT_EARLY) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT_EARLY))
+from scplay.match_logger import MatchLogger
+
 
 RACE_MAP = {
     "terran": Race.Terran,
@@ -45,14 +51,19 @@ CHAT_LOG = Path(
         str(_REPO_ROOT / "replays" / "playbot_live_chat.log"),
     )
 )
+# Structured DB-style logs live under logs/matches/<match_id>/
+
 
 
 class PlaybotSparBot(BotAI):
     """Zerg sparring partner. Optional chaos cheats + live chat."""
 
-    def __init__(self, *, chaos: bool = False) -> None:
+    def __init__(self, *, chaos: bool = False, match_logger: MatchLogger | None = None) -> None:
         super().__init__()
         self.chaos = chaos
+        self.match_logger = match_logger
+        self._last_snapshot_time = -999.0
+        self._my_player_id: int | None = None
         self.attack_started = False
         self._said: set[str] = set()
         self._last_banter_time = 0.0
@@ -81,8 +92,16 @@ class PlaybotSparBot(BotAI):
 
     async def on_start(self) -> None:
         self.client.game_step = 2 if not self.chaos else 1
+        self._my_player_id = int(self.player_id)
         CHAT_LOG.parent.mkdir(parents=True, exist_ok=True)
         CHAT_LOG.write_text("")
+        if self.match_logger is not None:
+            self.match_logger.event(
+                "bot_on_start",
+                {"player_id": self._my_player_id, "chaos": self.chaos},
+                game_time=0.0,
+                iteration=0,
+            )
         if self.chaos:
             await self._enable_chaos()
             await self.say(
@@ -124,11 +143,20 @@ class PlaybotSparBot(BotAI):
     async def on_end(self, result: Result) -> None:
         if result == Result.Victory:
             msg = "GG — Playbot takes it. Rematch when you're ready."
+            human_res = "Defeat"
         elif result == Result.Defeat:
             msg = "GG — you got me. Respect. Run it back?"
+            human_res = "Victory"
         else:
             msg = f"GG — match over ({result})."
+            human_res = str(result)
         await self.say(msg, sc2=False)
+        if self.match_logger is not None:
+            self.match_logger.close(
+                result_bot=str(result),
+                result_human=human_res,
+                game_time=float(getattr(self, "time", 0.0) or 0.0),
+            )
 
     async def say(self, msg: str, *, once_key: str | None = None, sc2: bool = True) -> None:
         if once_key is not None:
@@ -138,10 +166,22 @@ class PlaybotSparBot(BotAI):
         line = f"[Playbot] {msg}"
         print(line, flush=True)
         try:
+            CHAT_LOG.parent.mkdir(parents=True, exist_ok=True)
             with CHAT_LOG.open("a", encoding="utf-8") as f:
                 f.write(f"{time.strftime('%H:%M:%S')} {line}\n")
         except OSError:
             pass
+        if self.match_logger is not None:
+            gt = float(getattr(self, "time", 0.0) or 0.0)
+            it = int(getattr(self, "iteration", 0) or 0)
+            self.match_logger.chat(
+                speaker="playbot",
+                player_id=self._my_player_id,
+                message=msg,
+                game_time=gt,
+                iteration=it,
+                source="bot_say",
+            )
         if not sc2:
             return
         try:
@@ -160,6 +200,8 @@ class PlaybotSparBot(BotAI):
             return
 
         hatch = self.townhalls.first
+        await self._ingest_sc2_chat()
+        await self._maybe_snapshot()
         await self._topup_chaos()
         await self._maybe_banter()
         await self._call_milestones()
@@ -171,6 +213,64 @@ class PlaybotSparBot(BotAI):
         await self._inject(hatch)
         await self._maybe_research()
         await self._attack()
+
+
+    async def _ingest_sc2_chat(self) -> None:
+        """Capture any chat the API reports this frame (human + others)."""
+        if self.match_logger is None:
+            return
+        try:
+            messages = self.state.chat
+        except Exception:
+            return
+        for m in messages:
+            pid = int(m.player_id)
+            if self._my_player_id is not None and pid == self._my_player_id:
+                speaker = "playbot"
+            elif self._my_player_id is not None:
+                speaker = "human"
+            else:
+                speaker = f"player_{pid}"
+            self.match_logger.chat(
+                speaker=speaker,
+                player_id=pid,
+                message=m.message,
+                game_time=float(self.time),
+                iteration=int(getattr(self, "iteration", 0) or 0),
+                source="sc2",
+            )
+
+    async def _maybe_snapshot(self) -> None:
+        if self.match_logger is None:
+            return
+        if self.time - self._last_snapshot_time < 15:
+            return
+        self._last_snapshot_time = self.time
+        self.match_logger.snapshot(
+            game_time=float(self.time),
+            iteration=int(getattr(self, "iteration", 0) or 0),
+            bot={
+                "minerals": int(self.minerals),
+                "vespene": int(self.vespene),
+                "supply_used": float(self.supply_used),
+                "supply_cap": float(self.supply_cap),
+                "workers": int(self.supply_workers),
+                "army_supply": float(self.supply_army),
+                "lings": int(self.units(UnitTypeId.ZERGLING).amount),
+                "queens": int(self.units(UnitTypeId.QUEEN).amount),
+                "townhalls": int(self.townhalls.amount),
+                "structures": int(self.structures.amount),
+            },
+            enemy={
+                "units_seen": int(self.enemy_units.amount),
+                "structures_seen": int(self.enemy_structures.amount),
+                "workers_seen": int(
+                    self.enemy_units.of_type(
+                        {UnitTypeId.SCV, UnitTypeId.PROBE, UnitTypeId.DRONE}
+                    ).amount
+                ),
+            },
+        )
 
     async def _maybe_banter(self) -> None:
         interval = 30 if self.chaos else 45
@@ -301,6 +401,13 @@ class PlaybotSparBot(BotAI):
                 await self.say(
                     f"Attack wave — {lings.amount} lings. Defend or die screaming."
                 )
+                if self.match_logger is not None:
+                    self.match_logger.event(
+                        "attack_started",
+                        {"lings": int(lings.amount)},
+                        game_time=float(self.time),
+                        iteration=int(getattr(self, "iteration", 0) or 0),
+                    )
         if not self.attack_started:
             rally = self.game_info.map_center.towards(self.start_location, 20)
             for ling in lings.idle:
@@ -361,7 +468,7 @@ def main(argv: list[str] | None = None) -> None:
 
     realtime = not args.fast
     print("Playbot will talk in SC2 chat + this terminal during the match.", flush=True)
-    print(f"Live chat log: {CHAT_LOG}", flush=True)
+    print(f"Legacy live chat log: {CHAT_LOG}", flush=True)
     print(
         f"Mode: chaos={args.chaos} fast={args.fast} realtime={realtime}",
         flush=True,
@@ -373,11 +480,24 @@ def main(argv: list[str] | None = None) -> None:
             flush=True,
         )
 
+    def _race_name(r: Race) -> str:
+        return r.name if hasattr(r, "name") else str(r)
+
+    logger = MatchLogger(
+        map_name=args.map,
+        human_race=_race_name(args.human_race),
+        bot_race=_race_name(args.bot_race),
+        chaos=args.chaos,
+        fast=args.fast,
+        realtime=realtime,
+    )
+    print(f"Structured logs: {logger.match_dir}", flush=True)
+
     run_game(
         maps.get(args.map),
         [
             Human(args.human_race),
-            Bot(args.bot_race, PlaybotSparBot(chaos=args.chaos)),
+            Bot(args.bot_race, PlaybotSparBot(chaos=args.chaos, match_logger=logger)),
         ],
         realtime=realtime,
     )

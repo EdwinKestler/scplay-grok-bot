@@ -22,6 +22,7 @@ fi
 
 export SC2PF="${SC2PF:-WineLinux}"
 export PLAYBOT_CHAT_LOG="${PLAYBOT_CHAT_LOG:-$ROOT/replays/playbot_live_chat.log}"
+export SCPLAY_LOGS_ROOT="${SCPLAY_LOGS_ROOT:-$ROOT/logs}"
 mkdir -p "$ROOT/replays"
 
 echo "SC2PF=$SC2PF"
