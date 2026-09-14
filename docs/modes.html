@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mode prompts — scplay-grok-bot</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">scplay-grok-bot</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a class="active" href="modes.html">Mode prompts</a>
+        <a href="research.html">Research</a>
+        <a href="https://github.com/EdwinKestler/scplay-grok-bot">GitHub</a>
+      </nav>
+    </header>
+
+    <h1>Gameplay mode prompts</h1>
+    <p style="color:var(--muted)">
+      Each mode is a Markdown file with YAML frontmatter. The body is the
+      <strong>system prompt</strong>; <code>behavior</code> selects bot code paths.
+      Full write-up:
+      <a href="https://github.com/EdwinKestler/scplay-grok-bot/blob/main/docs/GAMEPLAY_INSTRUCTIONS.md">GAMEPLAY_INSTRUCTIONS.md</a>.
+    </p>
+
+    <h2><code>default</code> — aggressive sparring</h2>
+    <pre>---
+id: default
+title: Standard sparring
+behavior: aggressive
+---
+
+Play a normal 1v1. Harass, expand, and attack when you have an army advantage.
+Human and Playbot both play full offense/defense as usual.</pre>
+
+    <h2><code>defense_only</code> — you attack, Playbot holds</h2>
+    <pre>---
+id: defense_only
+title: Defense only (siege / break the wall)
+behavior: defense_only
+---
+
+## Roles
+- Playbot (Zerg): Defense only. Do not attack the human's base.
+- Human: Play offensively. Break the wall and destroy hatcheries.
+
+## Playbot rules
+1. Fortify main/natural (spines, queens, lings).
+2. Never send a proactive attack to the enemy start.
+3. When enemies enter your territory, counter locally, then return.
+4. Expand only to stabilize eco if needed.
+5. Banter like a wall — dare the attacker in.
+
+## Win conditions
+- Playbot: crush the siege or stall the assault.
+- Human: breach and kill bases.</pre>
+
+    <h2>Run it</h2>
+    <pre>./scripts/play_vs_playbot.sh --mode defense_only
+./scripts/play_vs_playbot.sh --mode defense_only --chaos --llm openai</pre>
+
+    <h2>Custom modes</h2>
+    <p style="color:var(--muted)">
+      Drop a new <code>.md</code> under <code>gameplay/instructions/</code> or pass
+      <code>--mode /path/to/file.md</code>. New <code>behavior</code> values need matching
+      code in <code>PlaybotSparBot</code>.
+    </p>
+
+    <footer><a href="index.html">← Home</a></footer>
+  </div>
+</body>
+</html>

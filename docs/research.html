@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research roadmap — scplay-grok-bot</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">scplay-grok-bot</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="modes.html">Mode prompts</a>
+        <a class="active" href="research.html">Research</a>
+        <a href="https://github.com/EdwinKestler/scplay-grok-bot">GitHub</a>
+      </nav>
+    </header>
+
+    <h1>Research roadmap</h1>
+    <p style="color:var(--muted)">
+      Test LLM and agent <strong>reasoning &amp; strategy</strong> in StarCraft II under
+      fixed mode prompts — human baselines, OpenAI vs Claude, compliance scoring.
+      Canonical markdown:
+      <a href="https://github.com/EdwinKestler/scplay-grok-bot/blob/main/docs/RESEARCH_ROADMAP.md">RESEARCH_ROADMAP.md</a>.
+    </p>
+
+    <h2>Questions</h2>
+    <ul>
+      <li>Instruction following (e.g. never leave base in <code>defense_only</code>)</li>
+      <li>Tactical adaptation to human pushes</li>
+      <li>Strategic coherence (eco / army / tech)</li>
+      <li>Language ↔ action alignment (chat vs logs)</li>
+      <li>Cross-model: OpenAI vs Claude vs Grok Bot vs scripted</li>
+    </ul>
+
+    <h2>Comparison protocols</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>A. Human vs AI</h3>
+        <p>Fix mode/map; rotate scripted, OpenAI coach, Claude coach, Grok Bot. Score with rubric + human ratings.</p>
+      </div>
+      <div class="card">
+        <h3>B. OpenAI vs Claude</h3>
+        <p>Same micro bot; only <code>--llm</code> differs. Isolates coach language (v1) and decisions (v2).</p>
+      </div>
+      <div class="card">
+        <h3>C. Agent vs agent</h3>
+        <p>Future: bot-vs-bot and desktop-agent ladder with shared instruction packs.</p>
+      </div>
+    </div>
+
+    <h2>v1 scoring rubric</h2>
+    <table>
+      <thead><tr><th>Axis</th><th>0–2</th><th>Evidence</th></tr></thead>
+      <tbody>
+        <tr><td>Instruction compliance</td><td>violates / mixed / clean</td><td>mode rules vs play/chat logs</td></tr>
+        <tr><td>Defense integrity</td><td>early collapse / mid / late hold</td><td>snapshots: th, army, threats</td></tr>
+        <tr><td>Counter quality</td><td>ignore / react / efficient</td><td><code>defense_counter</code> events</td></tr>
+        <tr><td>Chat relevance</td><td>spam / generic / situational</td><td>unique chat vs events</td></tr>
+        <tr><td>Outcome</td><td>loss / close / win</td><td><code>match.json</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Milestones</h2>
+    <ol>
+      <li><strong>M0</strong> Platform — Proton play, logs, LLM connectors, mode prompts, this site</li>
+      <li><strong>M1</strong> Human baselines — 3× scripted / OpenAI / Claude on <code>defense_only</code></li>
+      <li><strong>M2</strong> LLM decisions — coach proposes builds; log accept/reject</li>
+      <li><strong>M3</strong> Cross-agent ladder — bot-vs-bot + desktop agents</li>
+      <li><strong>M4</strong> Learning — classifiers &amp; small models on exported JSONL</li>
+    </ol>
+
+    <h2>First result</h2>
+    <table>
+      <thead><tr><th>Date</th><th>Condition</th><th>Mode</th><th>Result</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>2026-09-14</td>
+          <td>scripted + chaos</td>
+          <td>defense_only</td>
+          <td>Human win</td>
+          <td>match <code>…a4216909</code>; ~22m siege; wall fell after ling collapse</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <pre># After matches
+./scripts/export_logs_for_training.sh
+./scripts/eval_match_with_llm.sh claude logs/matches/&lt;id&gt;/chat.txt</pre>
+
+    <footer><a href="index.html">← Home</a></footer>
+  </div>
+</body>
+</html>

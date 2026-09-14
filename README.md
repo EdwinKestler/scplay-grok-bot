@@ -164,6 +164,18 @@ Suggested first message to your Grok Bot after copying this repo:
 
 
 
+
+## Project website
+
+GitHub Pages: **https://edwinkestler.github.io/scplay-grok-bot/**
+
+- [Mode prompts](https://edwinkestler.github.io/scplay-grok-bot/modes.html)
+- [Research roadmap](https://edwinkestler.github.io/scplay-grok-bot/research.html)
+
+## Research
+
+We use this arena to compare **reasoning and strategy** across scripted Playbot, OpenAI, Claude, and desktop agents (e.g. Grok Bot), including human-vs-AI and OpenAI-vs-Claude protocols. See [`docs/RESEARCH_ROADMAP.md`](docs/RESEARCH_ROADMAP.md).
+
 ## Gameplay instructions (e.g. defense only)
 
 ```bash

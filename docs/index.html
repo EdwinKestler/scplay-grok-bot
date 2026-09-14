@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>scplay-grok-bot — SC2 arena for Grok Bot, OpenAI & Claude</title>
+  <meta name="description" content="Ubuntu StarCraft II sparring for Grok Bot and LLMs — live chat, mode prompts, match logs, research roadmap." />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">scplay-grok-bot</div>
+      <nav>
+        <a class="active" href="index.html">Home</a>
+        <a href="modes.html">Mode prompts</a>
+        <a href="research.html">Research</a>
+        <a href="https://github.com/EdwinKestler/scplay-grok-bot">GitHub</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>StarCraft II sparring arena for agents &amp; LLMs</h1>
+      <p>
+        Play on Ubuntu (Steam Proton) against Playbot — with live in-game chat,
+        gameplay <strong>mode prompts</strong>, chaos options, and JSONL logs for
+        training and evaluation. Compare scripted bots, OpenAI, Claude, and Grok Bot
+        under the same conditions.
+      </p>
+      <div class="badges">
+        <span class="badge">Human vs Bot</span>
+        <span class="badge">defense_only modes</span>
+        <span class="badge">OpenAI + Claude</span>
+        <span class="badge">Match JSONL logs</span>
+        <span class="badge">MIT</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Quick start</h3>
+        <p>Clone, venv, maps, then launch a defense-only siege.</p>
+      </div>
+      <div class="card">
+        <h3><a href="modes.html">Mode prompts</a></h3>
+        <p>System prompts that change rules — e.g. Playbot holds, human breaks the wall.</p>
+      </div>
+      <div class="card">
+        <h3><a href="research.html">Research roadmap</a></h3>
+        <p>Protocols to test reasoning &amp; strategy: human baselines, OpenAI vs Claude, compliance scoring.</p>
+      </div>
+    </div>
+
+    <h2>Install &amp; play</h2>
+    <pre>git clone https://github.com/EdwinKestler/scplay-grok-bot.git
+cd scplay-grok-bot
+./scripts/setup_venv.sh
+./scripts/install_maps.sh   # needs SC2 via Proton/Wine
+
+# quit Battle.net SC2 first
+./scripts/play_vs_playbot.sh --mode defense_only
+./scripts/play_vs_playbot.sh --mode defense_only --chaos
+./scripts/play_vs_playbot.sh --llm claude --mode defense_only</pre>
+
+    <h2>What you get</h2>
+    <ul>
+      <li><code>PlaybotSparBot</code> — Zerg sparring partner with live SC2 chat</li>
+      <li><code>gameplay/instructions/*.md</code> — mode prompts (system instructions)</li>
+      <li><code>logs/matches/&lt;id&gt;/</code> — <code>chat.jsonl</code> + <code>play.jsonl</code> + <code>match.json</code></li>
+      <li>OpenAI / Claude connectors via <code>OPENAI_API_KEY</code> / <code>CLAUDE_API_KEY</code></li>
+      <li>Captures folder for screenshots &amp; gameplay clips</li>
+    </ul>
+
+    <h2>Docs on GitHub</h2>
+    <ul>
+      <li><a href="https://github.com/EdwinKestler/scplay-grok-bot/blob/main/README.md">README</a></li>
+      <li><a href="https://github.com/EdwinKestler/scplay-grok-bot/blob/main/docs/GAMEPLAY_INSTRUCTIONS.md">Gameplay instructions</a></li>
+      <li><a href="https://github.com/EdwinKestler/scplay-grok-bot/blob/main/docs/RESEARCH_ROADMAP.md">Research roadmap (markdown)</a></li>
+      <li><a href="https://github.com/EdwinKestler/scplay-grok-bot/blob/main/docs/LLM_CONNECTORS.md">LLM connectors</a></li>
+      <li><a href="https://github.com/EdwinKestler/scplay-grok-bot/blob/main/docs/LOG_SCHEMA.md">Log schema</a></li>
+    </ul>
+
+    <p class="note">StarCraft II © Blizzard. This project is a fan research / tooling arena, not affiliated with Blizzard.</p>
+
+    <footer>
+      <a href="https://github.com/EdwinKestler/scplay-grok-bot">EdwinKestler/scplay-grok-bot</a>
+      · MIT License
+    </footer>
+  </div>
+</body>
+</html>

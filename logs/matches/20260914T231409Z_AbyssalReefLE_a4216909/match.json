@@ -1,0 +1,24 @@
+{
+  "match_id": "20260914T231409Z_AbyssalReefLE_a4216909",
+  "started_at_utc": "2026-09-14T23:14:09Z",
+  "map_name": "AbyssalReefLE",
+  "human_race": "Terran",
+  "bot_race": "Zerg",
+  "bot_name": "PlaybotSparBot",
+  "chaos": true,
+  "fast": false,
+  "realtime": true,
+  "sc2path": "/home/kestl/.local/share/Steam/steamapps/compatdata/2164983734/pfx/drive_c/Program Files (x86)/StarCraft II",
+  "schema_version": "1.0",
+  "ended_at_utc": "2026-09-14T23:37:32Z",
+  "result_bot": "Result.Defeat",
+  "result_human": "Victory",
+  "duration_game_seconds": 1354.8660714285716,
+  "duration_wall_seconds": 1402.518,
+  "chat_lines": 107,
+  "play_events": 230,
+  "notes": {
+    "gameplay_mode": "defense_only",
+    "gameplay_behavior": "defense_only"
+  }
+}
