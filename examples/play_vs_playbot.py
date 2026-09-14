@@ -643,6 +643,17 @@ def main(argv: list[str] | None = None) -> None:
         help="Optional LLM connector for live banter: openai | claude "
         "(keys: OPENAI_API_KEY / CLAUDE_API_KEY)",
     )
+    parser.add_argument(
+        "--mode",
+        "--instructions",
+        dest="mode",
+        default=os.environ.get("SCPLAY_MODE", "default").strip() or "default",
+        help=(
+            "Gameplay instructions preset id or path to a .md file "
+            f"(presets: {', '.join(list_instruction_ids()) or 'none'}). "
+            "Example: defense_only"
+        ),
+    )
     args = parser.parse_args(argv)
 
     missing = [v for v in ("SC2PATH", "WINE", "WINEPREFIX", "SC2PF") if not os.environ.get(v)]

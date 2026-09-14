@@ -5,8 +5,22 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 if [[ -z "${SC2PATH:-}" ]]; then
-  # shellcheck disable=SC1091
-  eval "$("$ROOT/scripts/find_sc2.sh" | grep -E '^(SC2PATH|WINEPREFIX|WINE|SC2PF)=')"
+  # Export KEY=value safely even when paths contain spaces / (x86)
+  while IFS= read -r line; do
+    case "$line" in
+      SC2PATH=*|WINEPREFIX=*|WINE=*|SC2PF=*)
+        key="${line%%=*}"
+        val="${line#*=}"
+        printf -v "$key" '%s' "$val"
+        export "$key"
+        ;;
+    esac
+  done < <("$ROOT/scripts/find_sc2.sh")
+fi
+
+if [[ -z "${SC2PATH:-}" ]]; then
+  echo "ERROR: SC2PATH not set and find_sc2.sh failed" >&2
+  exit 1
 fi
 
 MAPS="$SC2PATH/Maps"
