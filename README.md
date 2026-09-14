@@ -163,6 +163,15 @@ Suggested first message to your Grok Bot after copying this repo:
 
 
 
+
+## Gameplay instructions (e.g. defense only)
+
+```bash
+./scripts/play_vs_playbot.sh --mode defense_only
+```
+
+Playbot holds the wall (spines, queens, lings at home) and **counters** when you push — you must play offense and break in. Add your own presets under `gameplay/instructions/`. See [`docs/GAMEPLAY_INSTRUCTIONS.md`](docs/GAMEPLAY_INSTRUCTIONS.md).
+
 ## LLM connectors (OpenAI + Claude)
 
 Evaluate or coach Playbot with other assistants. Keys from env only:

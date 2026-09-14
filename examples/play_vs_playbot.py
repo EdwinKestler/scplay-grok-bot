@@ -8,6 +8,7 @@ Modes:
   default     — normal realtime sparring + live chat
   --chaos     — free buildings, instant build/research, tech unlocked, fat wallet
   --fast      — non-realtime (game runs faster than wall-clock; still playable)
+  --mode / --instructions — gameplay system prompt (e.g. defense_only)
 """
 
 from __future__ import annotations
@@ -38,6 +39,7 @@ from scplay.match_logger import MatchLogger
 from scplay.llm import get_provider
 from scplay.llm.base import LLMProvider
 from scplay.llm.coach import banter_line
+from scplay.gameplay import GameplayInstructions, load_instructions, list_instruction_ids
 
 
 RACE_MAP = {
@@ -68,12 +70,17 @@ class PlaybotSparBot(BotAI):
         match_logger: MatchLogger | None = None,
         llm: LLMProvider | None = None,
         llm_name: str | None = None,
+        instructions: GameplayInstructions | None = None,
     ) -> None:
         super().__init__()
         self.chaos = chaos
         self.match_logger = match_logger
         self.llm = llm
         self.llm_name = llm_name
+        self.instructions = instructions
+        self.defense_only = bool(
+            instructions and instructions.behavior == "defense_only"
+        )
         self._last_llm_banter_time = -999.0
         self._last_snapshot_time = -999.0
         self._my_player_id: int | None = None
@@ -102,6 +109,15 @@ class PlaybotSparBot(BotAI):
                 "I'm printing lings like it's free. Oh wait — it is.",
                 "No eco stress. Pure violence.",
             ]
+        if self.defense_only:
+            self._banter_lines = [
+                "DEFENSE ONLY — come break my wall.",
+                "I don't leave home. You bring the fight.",
+                "Spines online. Try me.",
+                "That's a cute push. Still standing.",
+                "Counter ready. Don't overcommit… or do.",
+                "Your move, attacker.",
+            ]
 
     async def on_start(self) -> None:
         self.client.game_step = 2 if not self.chaos else 1
@@ -111,7 +127,7 @@ class PlaybotSparBot(BotAI):
         if self.match_logger is not None:
             self.match_logger.event(
                 "bot_on_start",
-                {"player_id": self._my_player_id, "chaos": self.chaos},
+                {"player_id": self._my_player_id, "chaos": self.chaos, "mode": (self.instructions.id if self.instructions else "default"), "defense_only": self.defense_only},
                 game_time=0.0,
                 iteration=0,
             )
@@ -121,7 +137,13 @@ class PlaybotSparBot(BotAI):
                 "Playbot CHAOS online — infinite money, instant research/build, "
                 "tech unlocked. glhf and don't blink."
             )
-        else:
+        if self.defense_only:
+            await self.say(
+                "Mode: DEFENSE ONLY — I hold the wall. You attack. "
+                "I counter when you knock. glhf.",
+                once_key="mode_defense",
+            )
+        elif not self.chaos:
             if self.llm_name:
                 await self.say(
                     f"Playbot online with {self.llm_name} coach — glhf. "
@@ -311,7 +333,13 @@ class PlaybotSparBot(BotAI):
             f"chaos={self.chaos} provider={self.llm_name}"
         )
         try:
-            resp = await banter_line(self.llm, summary)
+            resp = await banter_line(
+                self.llm,
+                summary,
+                gameplay_instructions=(
+                    self.instructions.system_prompt if self.instructions else None
+                ),
+            )
         except Exception as exc:  # noqa: BLE001
             print(f"[Playbot] LLM banter error: {exc}", flush=True)
             return
@@ -351,7 +379,10 @@ class PlaybotSparBot(BotAI):
 
     async def _call_milestones(self) -> None:
         if self.structures(UnitTypeId.SPAWNINGPOOL).ready:
-            await self.say("Spawning pool's up. Lings incoming.", once_key="pool")
+            if self.defense_only:
+                await self.say("Pool's up — spines and hold coming.", once_key="pool")
+            else:
+                await self.say("Spawning pool's up. Lings incoming.", once_key="pool")
         if self.units(UnitTypeId.QUEEN).amount >= 1:
             await self.say("Queen online — injects rolling.", once_key="queen")
         if self.already_pending_upgrade(UpgradeId.ZERGLINGMOVEMENTSPEED) > 0:
@@ -359,10 +390,16 @@ class PlaybotSparBot(BotAI):
         if self.townhalls.amount >= 2:
             await self.say("Took my natural. Don't let me snowball.", once_key="natural")
         if self.supply_army >= 20:
-            await self.say(
-                f"Army supply ~{int(self.supply_army)}. Pressure's coming.",
-                once_key="army20",
-            )
+            if self.defense_only:
+                await self.say(
+                    f"Garrison ~{int(self.supply_army)}. Wall's getting thick.",
+                    once_key="army20",
+                )
+            else:
+                await self.say(
+                    f"Army supply ~{int(self.supply_army)}. Pressure's coming.",
+                    once_key="army20",
+                )
         if self.enemy_units.amount >= 8:
             await self.say("I see your army. Cute.", once_key="see_army")
         if self.enemy_structures(UnitTypeId.BARRACKS).amount >= 1:
@@ -432,16 +469,23 @@ class PlaybotSparBot(BotAI):
         if (
             self.structures(UnitTypeId.SPAWNINGPOOL).ready
             and self.units(UnitTypeId.QUEEN).amount + self.already_pending(UnitTypeId.QUEEN)
-            < self.townhalls.amount
+            < (self.townhalls.amount + (2 if self.defense_only else 0))
             and self.can_afford(UnitTypeId.QUEEN)
         ):
             self.train(UnitTypeId.QUEEN)
+
+        if self.defense_only:
+            await self._build_static_defense(hatch)
 
     async def _train_units(self) -> None:
         if not self.structures(UnitTypeId.SPAWNINGPOOL).ready:
             return
         if self.larva and self.can_afford(UnitTypeId.ZERGLING) and self.supply_left > 0:
-            if self.chaos or self.supply_workers >= 16 or self.attack_started:
+            if self.defense_only:
+                # Keep a garrison even without attacking
+                if self.supply_workers >= 12 or self.chaos:
+                    self.train(UnitTypeId.ZERGLING, min(self.larva.amount, 16 if self.chaos else 10))
+            elif self.chaos or self.supply_workers >= 16 or self.attack_started:
                 self.train(UnitTypeId.ZERGLING, min(self.larva.amount, 16 if self.chaos else 8))
 
     async def _inject(self, hatch: Unit) -> None:
@@ -457,8 +501,40 @@ class PlaybotSparBot(BotAI):
         ):
             self.research(UpgradeId.ZERGLINGMOVEMENTSPEED)
 
+
+    async def _build_static_defense(self, hatch: Unit) -> None:
+        """Spine crawlers near bases for defense_only mode."""
+        if not self.structures(UnitTypeId.SPAWNINGPOOL).ready or not self.workers:
+            return
+        spines = self.structures(UnitTypeId.SPINECRAWLER)
+        pending = self.already_pending(UnitTypeId.SPINECRAWLER)
+        want = 4 if self.chaos else 3
+        if spines.amount + pending >= want:
+            return
+        if not self.can_afford(UnitTypeId.SPINECRAWLER):
+            return
+        # Place toward the map / likely attack path
+        for d in (8, 10, 12, 14, 6):
+            pos = hatch.position.towards(self.game_info.map_center, d)
+            if await self.can_place_single(UnitTypeId.SPINECRAWLER, pos):
+                self.workers.closest_to(pos).build(UnitTypeId.SPINECRAWLER, pos)
+                return
+            # Also try natural if we have one
+            if self.townhalls.amount > 1:
+                natural = self.townhalls.closest_to(self.game_info.map_center)
+                pos2 = natural.position.towards(self.game_info.map_center, d)
+                if await self.can_place_single(UnitTypeId.SPINECRAWLER, pos2):
+                    self.workers.closest_to(pos2).build(UnitTypeId.SPINECRAWLER, pos2)
+                    return
+
     async def _attack(self) -> None:
         lings = self.units(UnitTypeId.ZERGLING)
+        queens = self.units(UnitTypeId.QUEEN)
+
+        if self.defense_only:
+            await self._defend_and_counter(lings, queens)
+            return
+
         trigger = 6 if self.chaos else 12
         late = 180 if self.chaos else 360
         if lings.amount >= trigger or (self.time > late and lings.amount >= 4):
@@ -489,8 +565,51 @@ class PlaybotSparBot(BotAI):
         for ling in lings:
             ling.attack(dest)
         if lings.amount >= (12 if self.chaos else 20):
-            for queen in self.units(UnitTypeId.QUEEN).idle:
+            for queen in queens.idle:
                 queen.attack(dest)
+
+    async def _defend_and_counter(self, lings, queens) -> None:
+        """Hold bases; only engage enemies that enter our territory."""
+        # Defensive rally: between main and map center (choke / natural face)
+        home = self.townhalls.center if self.townhalls else self.start_location
+        rally = home.towards(self.game_info.map_center, 12)
+
+        # Threats near any hatchery
+        threats = self.enemy_units.closer_than(25, home)
+        for th in self.townhalls:
+            threats = threats | self.enemy_units.closer_than(22, th.position)
+
+        if threats:
+            if not self.attack_started:
+                self.attack_started = True  # means "under siege / countering"
+                await self.say(
+                    f"Incoming! Countering {threats.amount} units at the wall.",
+                    once_key=f"counter_{int(self.time)//30}",
+                )
+            target = threats.closest_to(home)
+            for ling in lings:
+                ling.attack(target)
+            for queen in queens:
+                if queen.distance_to(home) < 30:
+                    queen.attack(target)
+            if self.match_logger is not None and int(self.time) % 15 < 1:
+                self.match_logger.event(
+                    "defense_counter",
+                    {"threats": int(threats.amount), "lings": int(lings.amount)},
+                    game_time=float(self.time),
+                    iteration=int(getattr(self, "iteration", 0) or 0),
+                )
+            return
+
+        # No threats — hold the wall (never walk to enemy base)
+        self.attack_started = False
+        for ling in lings.idle:
+            ling.attack(rally)
+        for queen in queens.idle:
+            # Queens stay near a hatch for inject + defense
+            hatch = self.townhalls.closest_to(queen) if self.townhalls else None
+            if hatch:
+                queen.attack(hatch.position.towards(self.game_info.map_center, 6))
 
 
 def _parse_race(name: str) -> Race:
@@ -543,7 +662,7 @@ def main(argv: list[str] | None = None) -> None:
     print("Playbot will talk in SC2 chat + this terminal during the match.", flush=True)
     print(f"Legacy live chat log: {CHAT_LOG}", flush=True)
     print(
-        f"Mode: chaos={args.chaos} fast={args.fast} realtime={realtime}",
+        f"Mode: chaos={args.chaos} fast={args.fast} realtime={realtime} gameplay={args.mode}",
         flush=True,
     )
     if args.chaos:
@@ -555,6 +674,14 @@ def main(argv: list[str] | None = None) -> None:
 
     def _race_name(r: Race) -> str:
         return r.name if hasattr(r, "name") else str(r)
+
+    try:
+        instructions = load_instructions(args.mode)
+    except FileNotFoundError as e:
+        print(e, file=sys.stderr)
+        sys.exit(2)
+    print(f"Gameplay mode: {instructions.id} ({instructions.title}) "
+          f"behavior={instructions.behavior}", flush=True)
 
     llm = None
     llm_name = (args.llm or "").strip() or None
@@ -573,9 +700,11 @@ def main(argv: list[str] | None = None) -> None:
         fast=args.fast,
         realtime=realtime,
     )
+    logger.meta.notes["gameplay_mode"] = instructions.id
+    logger.meta.notes["gameplay_behavior"] = instructions.behavior
     if llm_name:
         logger.meta.notes["llm_provider"] = llm_name
-        logger._write_meta()
+    logger._write_meta()
     print(f"Structured logs: {logger.match_dir}", flush=True)
 
     run_game(
@@ -589,6 +718,7 @@ def main(argv: list[str] | None = None) -> None:
                     match_logger=logger,
                     llm=llm,
                     llm_name=llm_name,
+                    instructions=instructions,
                 ),
             ),
         ],
