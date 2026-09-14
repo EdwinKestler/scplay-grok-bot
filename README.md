@@ -1,6 +1,13 @@
 # scplay-grok-bot
 
-Play **StarCraft II** on **Ubuntu Linux** against your **Grok Bot** (or any assistant that can maintain a `burnysc2` bot) as a live adversary — with in-game chat banter, optional chaos mode (infinite money / instant research), and a faster-than-realtime option.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+Play **StarCraft II** on **Ubuntu Linux** against a Grok Bot (or OpenAI / Claude-coached Playbot) — live in-game chat, structured match logs for training, chaos mode, and gameplay captures.
+
+```bash
+git clone https://github.com/EdwinKestler/scplay-grok-bot.git
+cd scplay-grok-bot
+```
 
 Proven on Ubuntu 24.04 with SC2 running via **Steam Proton + Battle.net** (the “Steam VM” / Proton bottle). Lutris/Wine installs work too if you set paths.
 
