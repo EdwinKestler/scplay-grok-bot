@@ -13,6 +13,8 @@ When Pages is enabled from the `/docs` folder on `main`, the site is at
 
 | Doc | Topic |
 |-----|-------|
+| [PROTOCOL_V1.md](PROTOCOL_V1.md) | Versioned research protocol (T0/T1/T2) |
+| [PROTOCOL_V1_REVIEW_CHECKLIST.md](PROTOCOL_V1_REVIEW_CHECKLIST.md) | Confirmatory result checklist |
 | [GAMEPLAY_INSTRUCTIONS.md](GAMEPLAY_INSTRUCTIONS.md) | Mode prompts / system instructions |
 | [RESEARCH_ROADMAP.md](RESEARCH_ROADMAP.md) | LLM/agent eval protocols & milestones |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Grok Bot + burnysc2 + Proton |

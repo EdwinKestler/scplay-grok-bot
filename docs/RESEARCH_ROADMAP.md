@@ -4,6 +4,8 @@
 
 **Daily execution backlog:** [`RESEARCH_WORK_TODO.md`](RESEARCH_WORK_TODO.md) assigns Grok Bot one independently closable research feature per development day.
 
+**Research contract:** [`PROTOCOL_V1.md`](PROTOCOL_V1.md) (T0 scripted · T1 banter-only · T2 macro-advisor). T1 must never be read as strategic model control.
+
 ## Why SC2 (this stack)
 
 - Real-time strategy forces planning under uncertainty (fog, timing, multitasking).

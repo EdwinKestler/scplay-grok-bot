@@ -33,9 +33,10 @@ If the planned item is blocked, close another ready feature from the same milest
 
 ### Day 1 — Versioned research protocol
 
-- [ ] Add `docs/PROTOCOL_V1.md` defining the primary hypothesis, primary endpoint, exploratory metrics, unit of analysis, exclusions, and T0/T1/T2 conditions.
+- [x] Add `docs/PROTOCOL_V1.md` defining the primary hypothesis, primary endpoint, exploratory metrics, unit of analysis, exclusions, and T0/T1/T2 conditions.
 - **Acceptance:** The protocol clearly states that T1 banter cannot be interpreted as strategic model control.
 - **Evidence:** Documentation link check and reviewer checklist.
+- Completed: 2026-09-14 | Commit/PR: (filled after push) | Evidence: tests/test_protocol_v1.py (9 passed); evidence/day01_protocol_v1/; docs/PROTOCOL_V1_REVIEW_CHECKLIST.md
 
 ### Day 2 — Condition registry
 
@@ -249,7 +250,7 @@ Human sessions should be a separate, counterbalanced UX study focused on workloa
 
 | Day | Date | Feature closed | Commit/PR | Evidence | Blockers or follow-up |
 |---:|---|---|---|---|---|
-| 1 | | | | | |
+| 1 | 2026-09-14 | Versioned research protocol (PROTOCOL_V1.md) | (filled after push) | evidence/day01_protocol_v1/pytest_output.txt (9 passed) | |
 | 2 | | | | | |
 | 3 | | | | | |
 | 4 | | | | | |

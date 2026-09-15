@@ -171,6 +171,17 @@ Suggested first message to your Grok Bot after copying this repo:
 
 
 
+
+## Research protocol & tests
+
+- Contract: [`docs/PROTOCOL_V1.md`](docs/PROTOCOL_V1.md) (T0 / T1 / T2 — T1 banter ≠ strategic control)
+- Day backlog: [`docs/RESEARCH_WORK_TODO.md`](docs/RESEARCH_WORK_TODO.md)
+
+```bash
+pip install -r requirements-dev.txt   # or: pip install pytest
+./.venv/bin/pytest tests/test_protocol_v1.py -v
+```
+
 ## Project website
 
 GitHub Pages: **https://edwinkestler.github.io/scplay-grok-bot/**
