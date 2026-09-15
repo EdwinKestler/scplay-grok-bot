@@ -1,8 +1,14 @@
 # scplay-grok-bot
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Project site](https://img.shields.io/badge/PROJECT_SITE-LIVE-72f1b8?style=flat-square)](https://edwinkestler.github.io/scplay-grok-bot/)
+[![Platform: Ubuntu](https://img.shields.io/badge/PLATFORM-UBUNTU-65c9ff?style=flat-square)](#requirements)
+[![License: MIT](https://img.shields.io/badge/LICENSE-MIT-ffb768?style=flat-square)](LICENSE)
 
-Play **StarCraft II** on **Ubuntu Linux** against a Grok Bot (or OpenAI / Claude-coached Playbot) — live in-game chat, structured match logs for training, chaos mode, and gameplay captures.
+**Command the battlefield. Measure the intelligence.** Play StarCraft II on Ubuntu Linux against a Grok Bot (or OpenAI / Claude-coached Playbot) with live in-game chat, structured match logs, chaos mode, and gameplay captures.
+
+[![SCPlay defense-only match with a Terran player and Zerg Playbot](docs/assets/arena.webp)](https://edwinkestler.github.io/scplay-grok-bot/)
+
+**[Explore the project site](https://edwinkestler.github.io/scplay-grok-bot/)** · [Gameplay modes](https://edwinkestler.github.io/scplay-grok-bot/modes.html) · [Research roadmap](https://edwinkestler.github.io/scplay-grok-bot/research.html)
 
 ```bash
 git clone https://github.com/EdwinKestler/scplay-grok-bot.git
