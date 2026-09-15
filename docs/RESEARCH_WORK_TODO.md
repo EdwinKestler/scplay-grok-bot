@@ -43,7 +43,7 @@ If the planned item is blocked, close another ready feature from the same milest
 - [x] Add a machine-readable registry for experimental conditions, including controller tier, map, opponent, mode, chaos, real-time setting, and decision cadence.
 - **Acceptance:** Invalid or ambiguous combinations—especially chaos mixed with confirmatory matches—are rejected.
 - **Evidence:** Passing valid and invalid registry fixtures.
-- Completed: 2026-09-15 | Commit/PR: (filled after push) | Evidence: tests/test_condition_registry.py; tests/fixtures/conditions/; evidence/day02_condition_registry/
+- Completed: 2026-09-15 | Commit/PR: 417bcc6 | Evidence: tests/test_condition_registry.py; tests/fixtures/conditions/; evidence/day02_condition_registry/
 
 ### Day 3 — Log schema v2
 
@@ -252,7 +252,7 @@ Human sessions should be a separate, counterbalanced UX study focused on workloa
 | Day | Date | Feature closed | Commit/PR | Evidence | Blockers or follow-up |
 |---:|---|---|---|---|---|
 | 1 | 2026-09-14 | Versioned research protocol (PROTOCOL_V1.md) | 4e73338 | evidence/day01_protocol_v1/pytest_output.txt (9 passed) | |
-| 2 | 2026-09-15 | Condition registry (scplay/conditions.py) | (filled after push) | evidence/day02_condition_registry/pytest_output.txt | |
+| 2 | 2026-09-15 | Condition registry (scplay/conditions.py) | 417bcc6 | evidence/day02_condition_registry/pytest_output.txt | |
 | 3 | | | | | |
 | 4 | | | | | |
 | 5 | | | | | |
