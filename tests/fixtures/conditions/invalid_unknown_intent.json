@@ -1,0 +1,12 @@
+{
+  "schema_version": "1",
+  "controller_tier": "T0",
+  "map_name": "Acid Plant LE",
+  "opponent": "built_in",
+  "mode": "default",
+  "chaos": false,
+  "realtime": false,
+  "decision_cadence_s": null,
+  "analysis_intent": "production",
+  "llm_provider": null
+}

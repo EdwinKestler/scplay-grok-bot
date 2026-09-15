@@ -1,0 +1,13 @@
+{
+  "schema_version": "1",
+  "controller_tier": "T2",
+  "map_name": "Catalyst LE",
+  "opponent": "playbot_spar",
+  "mode": "default",
+  "chaos": true,
+  "realtime": true,
+  "decision_cadence_s": 10.0,
+  "analysis_intent": "exploratory",
+  "llm_provider": "claude",
+  "seed": 7
+}

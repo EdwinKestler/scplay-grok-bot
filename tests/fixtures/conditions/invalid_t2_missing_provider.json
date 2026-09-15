@@ -1,0 +1,13 @@
+{
+  "schema_version": "1",
+  "controller_tier": "T2",
+  "map_name": "Acid Plant LE",
+  "opponent": "built_in",
+  "mode": "defense_only",
+  "chaos": false,
+  "realtime": false,
+  "decision_cadence_s": 15.0,
+  "analysis_intent": "confirmatory",
+  "llm_provider": null,
+  "seed": 3
+}

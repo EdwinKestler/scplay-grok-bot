@@ -86,6 +86,8 @@ Human sessions are a **separate** unit of analysis (participant × session) and 
 
 ## 7. Experimental conditions (Protocol v1)
 
+Machine-readable validation of these fields is implemented in the [condition registry](CONDITION_REGISTRY.md) (`scplay/conditions.py`).
+
 ### Required fixed factors for confirmatory T0/T2 contrasts
 
 - Gameplay instruction mode (e.g. `defense_only` or `default`) identical within a pair
@@ -175,3 +177,4 @@ Amendments that change endpoints, tiers, or exclusions require a new protocol ve
 | Date | Change |
 |------|--------|
 | 2026-09-15 | Initial Protocol v1 (Day 1 feature). |
+| 2026-09-15 | Linked Day 2 condition registry (`CONDITION_REGISTRY.md`). |

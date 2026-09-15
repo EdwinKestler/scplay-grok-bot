@@ -1,0 +1,13 @@
+{
+  "schema_version": "1",
+  "controller_tier": "T1",
+  "map_name": "Acid Plant LE",
+  "opponent": "built_in",
+  "mode": "default",
+  "chaos": false,
+  "realtime": false,
+  "decision_cadence_s": 20.0,
+  "analysis_intent": "exploratory",
+  "llm_provider": "openai",
+  "claims_strategic_control": true
+}

@@ -1,0 +1,38 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /home/kestl/github/scplay-grok-bot/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/kestl/github/scplay-grok-bot
+collecting ... collected 30 items
+
+tests/test_condition_registry.py::test_fixture_directories_populated PASSED [  3%]
+tests/test_condition_registry.py::test_valid_fixtures_parse[valid_confirmatory_t0.json] PASSED [  6%]
+tests/test_condition_registry.py::test_valid_fixtures_parse[valid_confirmatory_t2.json] PASSED [ 10%]
+tests/test_condition_registry.py::test_valid_fixtures_parse[valid_demo_chaos.json] PASSED [ 13%]
+tests/test_condition_registry.py::test_valid_fixtures_parse[valid_exploratory_chaos.json] PASSED [ 16%]
+tests/test_condition_registry.py::test_valid_fixtures_parse[valid_t1_exploratory.json] PASSED [ 20%]
+tests/test_condition_registry.py::test_valid_confirmatory_have_chaos_off PASSED [ 23%]
+tests/test_condition_registry.py::test_valid_exploratory_or_demo_may_enable_chaos PASSED [ 26%]
+tests/test_condition_registry.py::test_valid_t1_exploratory PASSED       [ 30%]
+tests/test_condition_registry.py::test_invalid_fixtures_raise[invalid_bad_tier.json] PASSED [ 33%]
+tests/test_condition_registry.py::test_invalid_fixtures_raise[invalid_confirmatory_chaos.json] PASSED [ 36%]
+tests/test_condition_registry.py::test_invalid_fixtures_raise[invalid_empty_map.json] PASSED [ 40%]
+tests/test_condition_registry.py::test_invalid_fixtures_raise[invalid_t0_with_provider.json] PASSED [ 43%]
+tests/test_condition_registry.py::test_invalid_fixtures_raise[invalid_t1_claims_strategic.json] PASSED [ 46%]
+tests/test_condition_registry.py::test_invalid_fixtures_raise[invalid_t2_confirmatory_no_cadence.json] PASSED [ 50%]
+tests/test_condition_registry.py::test_invalid_fixtures_raise[invalid_t2_missing_provider.json] PASSED [ 53%]
+tests/test_condition_registry.py::test_invalid_fixtures_raise[invalid_unknown_intent.json] PASSED [ 56%]
+tests/test_condition_registry.py::test_invalid_fixtures_raise[invalid_unknown_mode.json] PASSED [ 60%]
+tests/test_condition_registry.py::test_confirmatory_chaos_message_explicit PASSED [ 63%]
+tests/test_condition_registry.py::test_reject_tier_alias_t0_lowercase PASSED [ 66%]
+tests/test_condition_registry.py::test_reject_non_boolean_chaos PASSED   [ 70%]
+tests/test_protocol_v1.py::test_protocol_file_exists PASSED              [ 73%]
+tests/test_protocol_v1.py::test_checklist_file_exists PASSED             [ 76%]
+tests/test_protocol_v1.py::test_required_sections_present PASSED         [ 80%]
+tests/test_protocol_v1.py::test_t0_t1_t2_defined PASSED                  [ 83%]
+tests/test_protocol_v1.py::test_t1_banter_not_strategic_control_disclaimer PASSED [ 86%]
+tests/test_protocol_v1.py::test_checklist_mentions_t1_rule PASSED        [ 90%]
+tests/test_protocol_v1.py::test_docs_link_to_protocol PASSED             [ 93%]
+tests/test_protocol_v1.py::test_protocol_links_checklist PASSED          [ 96%]
+tests/test_protocol_v1.py::test_exclusions_include_chaos_and_tier_mislabel PASSED [100%]
+
+============================== 30 passed in 0.03s ==============================

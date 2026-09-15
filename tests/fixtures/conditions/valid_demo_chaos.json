@@ -1,0 +1,12 @@
+{
+  "schema_version": "1",
+  "controller_tier": "T0",
+  "map_name": "Flat32",
+  "opponent": "human",
+  "mode": "default",
+  "chaos": true,
+  "realtime": true,
+  "decision_cadence_s": null,
+  "analysis_intent": "demo",
+  "llm_provider": null
+}
