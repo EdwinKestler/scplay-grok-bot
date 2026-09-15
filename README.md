@@ -234,12 +234,13 @@ Put gameplay screenshots and short clips in [`captures/`](captures/):
 
 ## License
 
-MIT for the scripts and bot code in this repo. StarCraft II © Blizzard. Map packs are subject to [Blizzard’s AI and Machine Learning License](http://blzdistsc2-a.akamaihd.net/AI_AND_MACHINE_LEARNING_LICENSE.html).
+MIT for the scripts and bot code in this repo. Third-party software, game assets, and trademarks remain subject to their respective terms; see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
 ---
 
 ## Credits
 
 - [BurnySc2/python-sc2](https://github.com/BurnySc2/python-sc2) (`burnysc2`)
-- [Blizzard/s2client-proto](https://github.com/Blizzard/s2client-proto) map packs
+- [Blizzard/s2client-proto](https://github.com/Blizzard/s2client-proto) — StarCraft II API protocol and documentation, © 2017 Blizzard Entertainment, provided under its [MIT `PROTOCOL_LICENSE`](https://github.com/Blizzard/s2client-proto/blob/master/PROTOCOL_LICENSE)
+- Blizzard's downloadable client, map, and replay packs are governed separately by its [AI and Machine Learning License](http://blzdistsc2-a.akamaihd.net/AI_AND_MACHINE_LEARNING_LICENSE.html)
 - Originated from a working Ubuntu Proton + Grok Bot “Playbot” sparring setup

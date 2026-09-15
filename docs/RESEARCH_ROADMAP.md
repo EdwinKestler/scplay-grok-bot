@@ -2,6 +2,8 @@
 
 **Goal:** Use scplay-grok-bot as a reproducible arena to test **reasoning and strategy** in LLMs and desktop agents (Grok Bot, OpenAI, Claude, …), against humans and against each other — with logs suitable for scoring and training.
 
+**Daily execution backlog:** [`RESEARCH_WORK_TODO.md`](RESEARCH_WORK_TODO.md) assigns Grok Bot one independently closable research feature per development day.
+
 ## Why SC2 (this stack)
 
 - Real-time strategy forces planning under uncertainty (fog, timing, multitasking).
@@ -119,7 +121,7 @@ Planned:
 - Do not publish raw human chat without consent.
 - Never commit API keys; use env vars only.
 - Label chaos / cheat matches clearly in datasets.
-- SC2 © Blizzard; respect AI/ML map-pack license terms.
+- Attribute Blizzard's `s2client-proto` protocol under its [MIT `PROTOCOL_LICENSE`](https://github.com/Blizzard/s2client-proto/blob/master/PROTOCOL_LICENSE); separately respect the [AI and Machine Learning License](http://blzdistsc2-a.akamaihd.net/AI_AND_MACHINE_LEARNING_LICENSE.html) for downloadable client, map, and replay packs.
 
 ## How to contribute an experiment
 
