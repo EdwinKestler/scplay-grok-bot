@@ -50,7 +50,7 @@ If the planned item is blocked, close another ready feature from the same milest
 - [x] Define versioned JSON Schemas for the run manifest, gameplay events, chat events, snapshots, and LLM decisions.
 - **Acceptance:** Every record has `schema_version`, `run_id`, an ordered sequence identifier, game-loop time, source, and event type.
 - **Evidence:** All committed example records validate against their schemas.
-- Completed: 2026-09-16 | Commit/PR: (filled after push) | Evidence: tests/test_schema_v2.py; tests/fixtures/schema_v2/; schemas/v2/; evidence/day03_log_schema_v2/
+- Completed: 2026-09-16 | Commit/PR: 8d841e7 | Evidence: tests/test_schema_v2.py; tests/fixtures/schema_v2/; schemas/v2/; evidence/day03_log_schema_v2/
 
 ### Day 4 — Reproducible run manifest
 
@@ -254,7 +254,7 @@ Human sessions should be a separate, counterbalanced UX study focused on workloa
 |---:|---|---|---|---|---|
 | 1 | 2026-09-14 | Versioned research protocol (PROTOCOL_V1.md) | 4e73338 | evidence/day01_protocol_v1/pytest_output.txt (9 passed) | |
 | 2 | 2026-09-15 | Condition registry (scplay/conditions.py) | pending authorization | evidence/day02_condition_registry/pytest_output.txt | |
-| 3 | 2026-09-16 | Log schema v2 (schemas/v2 + scplay/schema_v2.py) | (filled after push) | evidence/day03_log_schema_v2/pytest_output.txt | Live MatchLogger still v1; Day 4 manifests |
+| 3 | 2026-09-16 | Log schema v2 (schemas/v2 + scplay/schema_v2.py) | 8d841e7 | evidence/day03_log_schema_v2/pytest_output.txt | Live MatchLogger still v1; Day 4 manifests |
 | 4 | | | | | |
 | 5 | | | | | |
 | 6 | | | | | |
