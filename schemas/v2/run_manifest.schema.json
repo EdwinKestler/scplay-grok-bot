@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/EdwinKestler/scplay-grok-bot/schemas/v2/run_manifest.schema.json",
+  "title": "Run manifest (schema v2)",
+  "description": "Run-level metadata placeholder (Day 4 fills fingerprints). seq is typically 0.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "seq",
+    "game_loop",
+    "source",
+    "event_type",
+    "map_name",
+    "controller_tier",
+    "chaos",
+    "realtime",
+    "mode",
+    "started_at_utc"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "2.0"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "game_loop": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "logger",
+        "bot",
+        "human",
+        "sc2",
+        "llm",
+        "system"
+      ]
+    },
+    "event_type": {
+      "type": "string",
+      "const": "run_manifest"
+    },
+    "game_time_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "map_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "controller_tier": {
+      "type": "string",
+      "enum": [
+        "T0",
+        "T1",
+        "T2"
+      ]
+    },
+    "chaos": {
+      "type": "boolean"
+    },
+    "realtime": {
+      "type": "boolean"
+    },
+    "mode": {
+      "type": "string",
+      "minLength": 1
+    },
+    "started_at_utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "opponent": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "seed": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "analysis_intent": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "enum": [
+            "confirmatory",
+            "exploratory",
+            "demo"
+          ]
+        }
+      ]
+    },
+    "llm_provider": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "git_sha": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "git_dirty": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "config_fingerprint": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "prompt_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sc2_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "python_packages": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

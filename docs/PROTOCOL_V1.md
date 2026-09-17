@@ -76,7 +76,7 @@ LLM-as-judge scores are exploratory and must be blinded and provenance-logged (D
 
 ## 6. Unit of analysis
 
-- **Primary unit:** One **match / run** with a unique `run_id` (today’s `match_id` until schema v2).
+- **Primary unit:** One **match / run** with a unique `run_id` (today’s `match_id` until live logger migration; contract in [`schemas/v2/`](../schemas/v2/) / [LOG_SCHEMA.md](LOG_SCHEMA.md)).
 - **Pairing unit:** Same map + seed + opponent config + mode + chaos flag across controller tiers.
 - **Reporting unit:** Condition cells with **N**, exclusions, and uncertainty — never a rank without sample size.
 

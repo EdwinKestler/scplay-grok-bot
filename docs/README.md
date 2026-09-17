@@ -21,6 +21,7 @@ When Pages is enabled from the `/docs` folder on `main`, the site is at
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Grok Bot + burnysc2 + Proton |
 | [GROK_BOT_PROMPT.md](GROK_BOT_PROMPT.md) | Onboarding prompt for another Grok Bot |
 | [LLM_CONNECTORS.md](LLM_CONNECTORS.md) | OpenAI + Claude API keys |
-| [LOG_SCHEMA.md](LOG_SCHEMA.md) | Play/chat JSONL for training |
+| [LOG_SCHEMA.md](LOG_SCHEMA.md) | Log schema v2 (+ legacy v1 note) |
+| [../schemas/v2/](../schemas/v2/) | JSON Schemas for run/events/chat/snapshots/LLM |
 | [../logs/README.md](../logs/README.md) | On-disk log layout |
 | [../captures/README.md](../captures/README.md) | Screenshots & clips |

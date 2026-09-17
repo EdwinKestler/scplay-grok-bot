@@ -1,0 +1,31 @@
+{
+  "schema_version": "2.0",
+  "run_id": "20260916T165000Z_AbyssalReefLE_deadbeef",
+  "seq": 6,
+  "game_loop": 3500,
+  "game_time_s": 156.25,
+  "source": "llm",
+  "event_type": "llm_decision",
+  "decision_kind": "macro",
+  "status": "applied",
+  "proposal": {
+    "economy_priority": "workers",
+    "unit_mix": "lings",
+    "expansion": "hold",
+    "defense_posture": "hold_natural",
+    "attack_posture": "none",
+    "horizon_s": 45,
+    "confidence": 0.72
+  },
+  "validation": {
+    "ok": true,
+    "reason": "within defense_only rules"
+  },
+  "applied_game_loop": 3512,
+  "expires_game_loop": 4480,
+  "latency_ms": 812.5,
+  "prompt_hash": "sha256:synthetic_prompt_hash_0001",
+  "response_id": "resp_synthetic_001",
+  "model": "mock-macro-v0",
+  "rationale": "Keep workers flowing; no attack under defense_only."
+}

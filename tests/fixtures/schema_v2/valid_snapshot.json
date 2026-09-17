@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "run_id": "20260916T165000Z_AbyssalReefLE_deadbeef",
+  "seq": 5,
+  "game_loop": 3360,
+  "game_time_s": 150.0,
+  "source": "logger",
+  "event_type": "snapshot",
+  "iteration": 840,
+  "bot": {
+    "minerals": 450,
+    "vespene": 100,
+    "supply_used": 36,
+    "supply_cap": 46,
+    "workers": 22,
+    "army_supply": 14,
+    "lings": 12,
+    "townhalls": 2
+  },
+  "enemy": {
+    "units_seen": 9,
+    "structures_seen": 4
+  }
+}

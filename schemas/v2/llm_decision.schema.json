@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/EdwinKestler/scplay-grok-bot/schemas/v2/llm_decision.schema.json",
+  "title": "LLM decision trace (schema v2)",
+  "description": "T2 macro (and optional T1 banter) decision trace: propose \u2192 validate \u2192 applied|rejected|expired|failed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "seq",
+    "game_loop",
+    "source",
+    "event_type",
+    "decision_kind",
+    "status",
+    "proposal"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "2.0"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "game_loop": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "logger",
+        "bot",
+        "human",
+        "sc2",
+        "llm",
+        "system"
+      ]
+    },
+    "event_type": {
+      "type": "string",
+      "const": "llm_decision"
+    },
+    "game_time_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "decision_kind": {
+      "type": "string",
+      "enum": [
+        "macro",
+        "banter"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "validated",
+        "applied",
+        "rejected",
+        "expired",
+        "failed"
+      ]
+    },
+    "proposal": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "validation": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "rule": {
+          "type": "string"
+        }
+      }
+    },
+    "applied_game_loop": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "expires_game_loop": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "latency_ms": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "prompt_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "response_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "model": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "rationale": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

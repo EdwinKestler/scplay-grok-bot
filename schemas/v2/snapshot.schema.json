@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/EdwinKestler/scplay-grok-bot/schemas/v2/snapshot.schema.json",
+  "title": "Periodic state snapshot (schema v2)",
+  "description": "Periodic coarse state for imitation / debugging. Feature objects are open.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "seq",
+    "game_loop",
+    "source",
+    "event_type",
+    "bot",
+    "enemy"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "2.0"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "game_loop": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "logger",
+        "bot",
+        "human",
+        "sc2",
+        "llm",
+        "system"
+      ]
+    },
+    "event_type": {
+      "type": "string",
+      "const": "snapshot"
+    },
+    "game_time_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "bot": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "minerals": {
+          "type": "number"
+        },
+        "vespene": {
+          "type": "number"
+        },
+        "supply_used": {
+          "type": "number"
+        },
+        "supply_cap": {
+          "type": "number"
+        },
+        "workers": {
+          "type": "number"
+        },
+        "army_supply": {
+          "type": "number"
+        },
+        "townhalls": {
+          "type": "number"
+        }
+      }
+    },
+    "enemy": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "units_seen": {
+          "type": "number"
+        },
+        "structures_seen": {
+          "type": "number"
+        }
+      }
+    },
+    "iteration": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/EdwinKestler/scplay-grok-bot/schemas/v2/gameplay_event.schema.json",
+  "title": "Gameplay event (schema v2)",
+  "description": "Sparse gameplay event (attack start, tech milestone, match lifecycle, etc.).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "seq",
+    "game_loop",
+    "source",
+    "event_type",
+    "name",
+    "data"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "2.0"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "game_loop": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "logger",
+        "bot",
+        "human",
+        "sc2",
+        "llm",
+        "system"
+      ]
+    },
+    "event_type": {
+      "type": "string",
+      "const": "gameplay_event"
+    },
+    "game_time_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}
