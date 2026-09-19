@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/EdwinKestler/scplay-grok-bot/schemas/v2/run_manifest.schema.json",
   "title": "Run manifest (schema v2)",
-  "description": "Run-level metadata placeholder (Day 4 fills fingerprints). seq is typically 0.",
+  "description": "Run-level metadata with configuration fingerprint (Day 4). seq is typically 0. Fingerprint excludes per-launch uniqueness (run_id, started_at_utc, seq, game_loop).",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -155,6 +155,53 @@
     },
     "notes": {
       "type": "object",
+      "additionalProperties": true
+    },
+    "map_checksum": {
+      "description": "sha256 hex of map file bytes, or of map_name+declared checksum input",
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "controller_version": {
+      "description": "Controller/software version string (e.g. PlaybotSparBot/1)",
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "provider_model_snapshot": {
+      "description": "Provider/model snapshot as a string or object (no secrets)",
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": true
+        }
+      ]
+    },
+    "parameters": {
+      "description": "Canonical run parameters (chaos/realtime/mode/tier/etc.)",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true
+    },
+    "timing_policy": {
+      "description": "Timing policy (e.g. decision_cadence_s, realtime)",
+      "type": [
+        "object",
+        "null"
+      ],
       "additionalProperties": true
     }
   }

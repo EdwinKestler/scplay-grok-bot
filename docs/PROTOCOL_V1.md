@@ -139,7 +139,7 @@ Every confirmatory run should eventually record (Milestone 1–2):
 - Seed, controller tier (T0/T1/T2), prompt hash, provider/model snapshot  
 - Timing policy (nonblocking)  
 
-Until Day 4 manifests exist, use best-effort `match.json` notes and never invent missing fields.
+Day 4 manifests (`scplay.run_manifest`) provide `config_fingerprint`; until live MatchLogger emits v2, use builder output or best-effort `match.json` notes and never invent missing fields.
 
 ---
 

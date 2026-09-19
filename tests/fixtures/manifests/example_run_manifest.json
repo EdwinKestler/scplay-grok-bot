@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0",
+  "run_id": "20260917T200000Z_AbyssalReefLE_deadbeef",
+  "seq": 0,
+  "game_loop": 0,
+  "source": "logger",
+  "event_type": "run_manifest",
+  "map_name": "AbyssalReefLE",
+  "controller_tier": "T2",
+  "chaos": false,
+  "realtime": false,
+  "mode": "defense_only",
+  "started_at_utc": "2026-09-17T20:00:00Z",
+  "opponent": "built_in_ai_hard",
+  "seed": 42,
+  "analysis_intent": "confirmatory",
+  "llm_provider": "mock-provider",
+  "git_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "git_dirty": false,
+  "config_fingerprint": "3de77a3aa6cc0fe66e6290b801f3bf58f6392b7ad62150ab2b46eb6762b44ca2",
+  "prompt_hash": "21e5c5941036db2b2a6c65485802d4312e3f70e90fb5064db5dada994cd6e7cd",
+  "sc2_version": "5.0.14.93333",
+  "python_packages": {
+    "burnysc2": "7.0.0",
+    "numpy": "2.0.0",
+    "scplay": "workspace"
+  },
+  "map_checksum": "e3ea60c7445dcda24092a6d5549a5b8b648dda35983e97550279d72d511d1df0",
+  "controller_version": "PlaybotSparBot/1",
+  "provider_model_snapshot": {
+    "provider": "mock-provider",
+    "model": "mock-model-1"
+  },
+  "parameters": {
+    "controller_tier": "T2",
+    "chaos": false,
+    "realtime": false,
+    "mode": "defense_only",
+    "opponent": "built_in_ai_hard",
+    "seed": 42,
+    "analysis_intent": "confirmatory",
+    "llm_provider": "mock-provider",
+    "map_name": "AbyssalReefLE"
+  },
+  "timing_policy": {
+    "realtime": false,
+    "decision_cadence_s": 15.0
+  },
+  "notes": {
+    "synthetic": true,
+    "privacy": "fixture"
+  }
+}

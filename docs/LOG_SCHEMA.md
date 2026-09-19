@@ -29,7 +29,7 @@ JSON Schema dialect: **draft 2020-12**.
 
 | `event_type` | Schema | Purpose |
 |--------------|--------|---------|
-| `run_manifest` | `run_manifest.schema.json` | Run metadata (Day 4 fills fingerprints) |
+| `run_manifest` | `run_manifest.schema.json` | Run metadata + `config_fingerprint` (see [RUN_MANIFEST.md](RUN_MANIFEST.md)) |
 | `gameplay_event` | `gameplay_event.schema.json` | Sparse named events + `data` |
 | `chat` | `chat_event.schema.json` | Speaker + message (+ optional `player_id`) |
 | `snapshot` | `snapshot.schema.json` | Periodic `bot` / `enemy` feature objects |
@@ -76,6 +76,17 @@ Until migration, `MatchLogger` writes:
 PROTOCOL_V1 notes that today’s `match_id` stands in for `run_id` until v2
 emission lands. Do not mix v1 and v2 lines in the same analytical dataset
 without an explicit adapter.
+
+
+## Run manifest fingerprint (Day 4)
+
+`scplay.run_manifest.build_run_manifest` fills optional Day 4 fields:
+`map_checksum`, `controller_version`, `provider_model_snapshot`, `parameters`,
+`timing_policy`, plus git/package/prompt/SC2 version metadata.
+
+`config_fingerprint` is sha256 of canonical JSON over configuration fields only
+(excludes `run_id` / `started_at_utc` / `seq`). Full field list:
+[RUN_MANIFEST.md](RUN_MANIFEST.md).
 
 ## Goals
 

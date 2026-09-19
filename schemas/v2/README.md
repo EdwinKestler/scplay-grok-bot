@@ -42,3 +42,19 @@ directory and validates with `jsonschema` Draft 2020-12.
 
 See `tests/fixtures/schema_v2/` for one valid example per type plus a mixed
 `sample_run.jsonl`.
+
+## Day 4 optional run_manifest fields
+
+In addition to Day 3 required/optional fields, `run_manifest.schema.json` allows:
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `map_checksum` | string\|null | sha256 of map bytes or name+declared |
+| `controller_version` | string\|null | e.g. `PlaybotSparBot/1` |
+| `provider_model_snapshot` | string\|object\|null | No secrets |
+| `parameters` | object\|null | Canonical parameter bag |
+| `timing_policy` | object\|null | e.g. decision cadence |
+
+Builder: `scplay.run_manifest.build_run_manifest`. Fingerprint docs:
+[`docs/RUN_MANIFEST.md`](../../docs/RUN_MANIFEST.md).
+

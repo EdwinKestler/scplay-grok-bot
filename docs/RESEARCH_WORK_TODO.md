@@ -54,9 +54,10 @@ If the planned item is blocked, close another ready feature from the same milest
 
 ### Day 4 — Reproducible run manifest
 
-- [ ] Generate a per-run manifest containing Git SHA/dirty state, SC2 and Python package versions, map checksum, seed, controller version, prompt hash, provider/model snapshot, parameters, and timing policy.
+- [x] Generate a per-run manifest containing Git SHA/dirty state, SC2 and Python package versions, map checksum, seed, controller version, prompt hash, provider/model snapshot, parameters, and timing policy.
 - **Acceptance:** Two launches with the same configuration produce the same configuration fingerprint while retaining unique run IDs.
 - **Evidence:** Automated manifest unit test and example manifest.
+- Completed: 2026-09-17 | Commit/PR: (filled after push) | Evidence: tests/test_run_manifest.py; tests/fixtures/manifests/example_run_manifest.json; evidence/day04_run_manifest/
 
 ### Day 5 — Repository research validator
 
@@ -255,7 +256,7 @@ Human sessions should be a separate, counterbalanced UX study focused on workloa
 | 1 | 2026-09-14 | Versioned research protocol (PROTOCOL_V1.md) | 4e73338 | evidence/day01_protocol_v1/pytest_output.txt (9 passed) | |
 | 2 | 2026-09-15 | Condition registry (scplay/conditions.py) | pending authorization | evidence/day02_condition_registry/pytest_output.txt | |
 | 3 | 2026-09-16 | Log schema v2 (schemas/v2 + scplay/schema_v2.py) | 8d841e7 | evidence/day03_log_schema_v2/pytest_output.txt | Live MatchLogger still v1; Day 4 manifests |
-| 4 | | | | | |
+| 4 | 2026-09-17 | Reproducible run manifest (scplay/run_manifest.py) | (filled after push) | evidence/day04_run_manifest/pytest_output.txt | MatchLogger still v1; Day 5 validator |
 | 5 | | | | | |
 | 6 | | | | | |
 | 7 | | | | | |
