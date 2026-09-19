@@ -1,0 +1,2 @@
+Research validator: tests/fixtures/validator/clean_bundle
+OK — no issues found.

@@ -1,0 +1,13 @@
+{
+  "schema_version": "1",
+  "controller_tier": "T0",
+  "map_name": "AbyssalReefLE",
+  "opponent": "built_in_ai_hard",
+  "mode": "defense_only",
+  "chaos": false,
+  "realtime": false,
+  "decision_cadence_s": null,
+  "analysis_intent": "confirmatory",
+  "llm_provider": null,
+  "seed": 7
+}

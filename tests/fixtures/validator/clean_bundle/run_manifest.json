@@ -1,0 +1,28 @@
+{
+  "schema_version": "2.0",
+  "run_id": "20260919T170000Z_AbyssalReefLE_day05clean",
+  "seq": 0,
+  "game_loop": 0,
+  "source": "logger",
+  "event_type": "run_manifest",
+  "map_name": "AbyssalReefLE",
+  "controller_tier": "T0",
+  "chaos": false,
+  "realtime": false,
+  "mode": "defense_only",
+  "started_at_utc": "2026-09-19T17:00:00Z",
+  "opponent": "built_in_ai_hard",
+  "seed": 7,
+  "analysis_intent": "confirmatory",
+  "llm_provider": null,
+  "git_sha": null,
+  "git_dirty": null,
+  "config_fingerprint": "sha256:synthetic_fingerprint_day05_clean",
+  "prompt_hash": null,
+  "sc2_version": null,
+  "python_packages": null,
+  "notes": {
+    "synthetic": true,
+    "sc2_path_placeholder": "/path/to/SC2"
+  }
+}

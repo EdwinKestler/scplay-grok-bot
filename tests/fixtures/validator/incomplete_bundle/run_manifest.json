@@ -1,0 +1,19 @@
+{
+  "schema_version": "2.0",
+  "run_id": "20260919T170300Z_AbyssalReefLE_day05inc",
+  "seq": 0,
+  "game_loop": 0,
+  "source": "logger",
+  "event_type": "run_manifest",
+  "map_name": "AbyssalReefLE",
+  "controller_tier": "T0",
+  "chaos": false,
+  "realtime": false,
+  "mode": "default",
+  "started_at_utc": "2026-09-19T17:03:00Z",
+  "opponent": "built_in",
+  "seed": 3,
+  "analysis_intent": "demo",
+  "llm_provider": null,
+  "notes": {"synthetic": true}
+}

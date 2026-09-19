@@ -1,0 +1,6 @@
+Research validator: tests/fixtures/validator/privacy_unsafe
+[ERROR] privacy.api_key_sk: run_manifest.json: content matches sk-<long-token> API-key heuristic; remove secrets (use obviously redacted placeholders that do not match sk-[A-Za-z0-9_-]{20,})
+[ERROR] privacy.home_path_posix: run_manifest.json: absolute personal home path '/home/someone/StarCraftII'; use repository-relative or synthetic placeholders like /path/to/SC2 (not /home/<user>/...)
+[ERROR] privacy.api_key_sk: events.jsonl: content matches sk-<long-token> API-key heuristic; remove secrets (use obviously redacted placeholders that do not match sk-[A-Za-z0-9_-]{20,})
+[ERROR] privacy.openai_api_key_assign: events.jsonl: content contains OPENAI_API_KEY= assignment; never commit API keys (use env vars / .env.example only)
+Summary: 4 error(s), 0 warning(s).

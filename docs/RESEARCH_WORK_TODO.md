@@ -61,9 +61,10 @@ If the planned item is blocked, close another ready feature from the same milest
 
 ### Day 5 — Repository research validator
 
-- [ ] Add one local command that validates configuration, schemas, manifests, JSONL records, privacy rules, and required artifacts.
+- [x] Add one local command that validates configuration, schemas, manifests, JSONL records, privacy rules, and required artifacts.
 - **Acceptance:** It exits nonzero with actionable errors for malformed, incomplete, or privacy-unsafe fixtures.
 - **Evidence:** Clean validation output plus at least one expected-failure test.
+- Completed: 2026-09-19 | Commit/PR: (filled after push) | Evidence: tests/test_research_validator.py; tests/fixtures/validator/; evidence/day05_research_validator/; docs/RESEARCH_VALIDATOR.md
 
 ## Milestone 2 — Repair telemetry integrity
 
@@ -257,7 +258,7 @@ Human sessions should be a separate, counterbalanced UX study focused on workloa
 | 2 | 2026-09-15 | Condition registry (scplay/conditions.py) | pending authorization | evidence/day02_condition_registry/pytest_output.txt | |
 | 3 | 2026-09-16 | Log schema v2 (schemas/v2 + scplay/schema_v2.py) | 8d841e7 | evidence/day03_log_schema_v2/pytest_output.txt | Live MatchLogger still v1; Day 4 manifests |
 | 4 | 2026-09-17 | Reproducible run manifest (scplay/run_manifest.py) | 5ce6ee9 | evidence/day04_run_manifest/pytest_output.txt | MatchLogger still v1; Day 5 validator |
-| 5 | | | | | |
+| 5 | 2026-09-19 | Repository research validator (scplay/research_validator.py) | (filled after push) | evidence/day05_research_validator/pytest_output.txt | |
 | 6 | | | | | |
 | 7 | | | | | |
 | 8 | | | | | |

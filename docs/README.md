@@ -22,6 +22,7 @@ When Pages is enabled from the `/docs` folder on `main`, the site is at
 | [GROK_BOT_PROMPT.md](GROK_BOT_PROMPT.md) | Onboarding prompt for another Grok Bot |
 | [LLM_CONNECTORS.md](LLM_CONNECTORS.md) | OpenAI + Claude API keys |
 | [RUN_MANIFEST.md](RUN_MANIFEST.md) | Reproducible run manifest + config fingerprint (Day 4) |
+| [RESEARCH_VALIDATOR.md](RESEARCH_VALIDATOR.md) | Repository research validator (Day 5) |
 | [LOG_SCHEMA.md](LOG_SCHEMA.md) | Log schema v2 (+ legacy v1 note) |
 | [../schemas/v2/](../schemas/v2/) | JSON Schemas for run/events/chat/snapshots/LLM |
 | [../logs/README.md](../logs/README.md) | On-disk log layout |

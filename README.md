@@ -31,6 +31,8 @@ This package is the portable extract of a working Playbot setup. Point your Grok
 | `scripts/install_maps.sh` | Download Blizzard ladder/melee maps into `$SC2PATH/Maps` |
 | `scripts/play_vs_playbot.sh` | One-command match launcher |
 | `docs/ARCHITECTURE.md` | How Grok Bot + API + Proton fit together |
+| `docs/RESEARCH_VALIDATOR.md` | Offline research fixture/bundle validator (Day 5) |
+| `scripts/validate_research.py` | CLI: schemas, manifests, JSONL, privacy, bundle checklist |
 
 **Not included:** the StarCraft II game itself (install via Battle.net). Maps are downloaded from Blizzard’s public AI/ML map packs (you accept their license by using the zip password).
 
